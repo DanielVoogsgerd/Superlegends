@@ -36,10 +36,10 @@ class Superlegends(object):
 
         self._send(msg)
 
-    def turnOn(self):
+    def on(self):
         self._send(self.onmsg)
 
-    def turnOff(self):
+    def off(self):
         self._send(self.offmsg)
 
     def _calcWarmChecksum(self, brightness):
