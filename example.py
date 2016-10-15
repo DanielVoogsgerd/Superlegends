@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 
 from time import sleep
-
 import Superlegends
 
-
-spl = Superlegends.Superlegends()
+spl = Superlegends.Superlegends();
 try:
     spl.connect('10.0.1.30')
+    print(spl.status())
     spl.on()
-    spl.setColor(255, 255, 255)
+    spl.set_color(255, 255, 255)
     sleep(1)
     spl.warm(100)
     sleep(1)
