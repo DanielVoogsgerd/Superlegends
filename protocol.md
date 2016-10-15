@@ -25,7 +25,7 @@ Light off:
 1. Consistent header
 2. The on or off command itself: on 0x23 and off 0x24
 3. Constant part
-4. Checksum
+4. [Checksum](#checksum)
 
 ### Receiving
 Dataless ACK packet
@@ -64,7 +64,7 @@ Maximum brightness warm mode:
 3. Warm mode intensity value
 4. Mode: 0xf0 for colour mode, 0x0f for warm mode.
 5. Constant part
-6. Checksum
+6. [Checksum](#checksum)
 
 ### Receiving
 Dataless ACK packet
@@ -77,13 +77,13 @@ Right now I just captured the status requesting sequence for one bulb, but it se
 ```
 Checking the status
 81 8a 8b 96
------------
-1
+-------- --
+   1     2
 ```
 
 #### Legend
 1. Constant sequence; seems to work for all bulbs in all modes
-
+2. [Checksum](#checksum)
 
 ### Receiving
 ```
@@ -120,7 +120,7 @@ Light bulb 1, warm mode:
 6. The brightness of the bulb if set in warm mode
 7. Constant sequence, probably to identify the response
 8. The mode of the light bulb
-9. Checksum
+9. [Checksum](#checksum)
 
 # Checksum
 The checksum is quite easily calculated, just add up all the bytes and take the 256 modulus.
