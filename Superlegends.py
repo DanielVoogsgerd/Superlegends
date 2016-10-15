@@ -8,9 +8,6 @@ class Superlegends(object):
     def __init__(self):
         self.defaultPort = 5577
 
-        # I've yet to discover why this is 48 and 79
-        self.magicColorOffset = 48
-        self.magicWarmOffset = 79
         self.onmsg = [0x71, 0x23, 0x0f]
         self.offmsg = [0x71, 0x24, 0x0f]
 
@@ -21,8 +18,12 @@ class Superlegends(object):
         else:
             self.port = port
 
+        socket.setdefaulttimeout(0.5)
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((self.ip, self.port))
+
+    def disconnect(self):
+        self.socket.close()
 
     def setColor(self, red, green, blue):
         prefix = [0x31]
@@ -44,5 +45,4 @@ class Superlegends(object):
 
     def _send(self, msg):
         checksum = reduce(add, msg) % 256
-        print(checksum)
         self.socket.send(bytes(msg + [checksum]))
