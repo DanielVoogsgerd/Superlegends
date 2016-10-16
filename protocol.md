@@ -5,6 +5,86 @@ In this file, I write down my finding with the protocol. This file is full of as
 
 The light bulbs have a seemingly proprietary protocol. It has confusing parts, but most are quite easily recognisable.
 
+# Configuration
+## Note
+I'm busy trying to figure out what protocol is used in configuring the bulbs, and while I captured most of the traffic, the light bulbs are pretty inconsistent in responding to the commands.
+
+## General
+The light bulb can be configured right from the app. All configuration commands are sent via UDP in constrast to the commands to control the light bulb which are sent via TCP.
+
+## Commands
+### IP and Hostname
+To get the IP and hostname of the lightbulb we sent:
+```
+HF-A11ASSISTHREAD
+```
+The response will look along the lines of:
+```
+10.0.1.31,ACCF2341CF98,HF-LPB100-ZJ200
+```
+
+Looking at the traffic I've captured the app responds with:
+```
++ok
+```
+after which no reponse is received.
+
+### Mode
+To get the mode in which the lightbulb is configured you'll send:
+```
+AT+WMODE\n
+```
+Possible responses are:
+```
++ok=STA\r\n\rn
+```
+The meaning of STA is unknown right now.
+
+### SSID and MAC-address
+To get the SSID and the MAC-address of the lightbulb you can send:
+```
+AT+WSLK\n
+```
+Possible responses are:
+```
++ok=<SSID>(<MAC>)\r\n\r\n
+```
+MAC: AA:BB:CC:DD:EE:FF
+
+
+### SSID
+To get the SSID you send:
+```
+AT+WSSSID\n
+```
+```
++ok=<SSID>\r\n\r\n
+```
+
+### WiFi Password
+To get the password you send:
+```
+AT+WSKEY\n
+```
+```
++ok=<SEC>,<ENC>,<PASS>
+```
+SEC: might be something like WPA2PSK
+ENC: Encryption, probabably AES
+PASS: Password in plain text
+
+### Not yet identified
+The following commands are sent by the application, but I've yet to discover why.
+```
+WAP\n
+WAKEY\n
+Z\n
+Q\n
+```
+
+# Controlling the Light Bulb
+## General
+All commands are sent via TCP.
 
 ## On/off
 ### Sending
