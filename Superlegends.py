@@ -9,24 +9,22 @@ def hex2dec(hex):
 
 
 class Superlegends(object):
-    def __init__(self):
+    def __init__(self, ip, port=None):
         self.defaultPort = 5577
 
         self.onmsg = [0x71, 0x23, 0x0f]
         self.offmsg = [0x71, 0x24, 0x0f]
 
         self.socket = None
-        self.ip = None
-        self.port = 5577
-
-    def connect(self, ip, port=None):
         self.ip = ip
-        if port is not None:
-            self.port = port
+        self.port = port if port is not None else 5577
+        self.connect()
 
+    def connect(self):
         socket.setdefaulttimeout(0.5)
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((self.ip, self.port))
+        print('Connected')
 
     def disconnect(self):
         self.socket.close()
