@@ -81,7 +81,17 @@ class Superlegends(object):
     def _send(self, msg):
         logger.info('Sending message')
         checksum = self._checksum(msg)
-        self.socket.send(bytes(msg + [checksum]))
+        MAX_ATTEMPTS = 3
+
+        attempt = 0
+        while attempt < MAX_ATTEMPTS:
+            try:
+                self.socket.send(bytes(msg + [checksum]))
+                return
+            except socket.error:
+                logger.error('Failed to connect, retrying')
+                self.reconnect()
+        raise
 
     def _receive(self):
         msg = ''
