@@ -35,6 +35,16 @@ class Superlegends(object):
         logger.debug('Disconnecting')
         self.socket.close()
 
+    def reconnect(self):
+        self.disconnect()
+        self.connect()
+
+    def ensureConnected(self):
+        try:
+            self.status()
+        except socket.error:
+            self.reconnect()
+
     def set_color(self, red, green, blue):
         logger.info('Settings the lights to the colour (R: {}, G: {}, B: {})'.format(red, green, blue))
         prefix = [0x31]
