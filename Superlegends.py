@@ -2,6 +2,7 @@
 import socket
 from functools import reduce
 from operator import add
+from binascii import hexlify
 import logging
 
 
@@ -75,11 +76,12 @@ class Superlegends(object):
     def _receive(self):
         msg = ''
         while len(msg) < 28:
-            data = self.socket.recv(14).hex()
-            msg += data
+            data_b = self.socket.recv(14)
+            data = hexlify(data_b)
+            msg += data.decode('UTF-8')
 
         msg_bytes_hex = [msg[i:i + 2] for i in range(0, len(msg), 2)]
-        msg_bytes = (list(map(hex2dec, msg_bytes_hex)))
+        msg_bytes = list(map(hex2dec, msg_bytes_hex))
 
         return msg_bytes
 
