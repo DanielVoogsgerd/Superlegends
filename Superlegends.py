@@ -96,8 +96,9 @@ class Superlegends(object):
         return msg_bytes
 
     def _parse_status(self, raw_status):
-        status = ([raw_status[0:2], raw_status[2], raw_status[3:5], raw_status[5], raw_status[6:9], raw_status[9:10],
-                   raw_status[10:12], raw_status[12:13], raw_status[13:14]])
+        status = ([raw_status[0:2], raw_status[2], raw_status[3:5], raw_status[5], raw_status[6:9], raw_status[9],
+                   raw_status[10:12], raw_status[12], raw_status[13]])
+
         if self._validate_status(status) is False:
             return False
 
@@ -109,4 +110,9 @@ class Superlegends(object):
 
     @staticmethod
     def _validate_status(response):
-        return response[0] == [0x81, 0x44] and response[2] == [0x61, 0x21] and response[6] == [0x04, 0x00]
+        fixed_pos = { 0: [0x81, 0x44], 2: [0x61, 0x21], 6: [0x04, 0x00] }
+        for i, v in fixed_pos.items():
+            if response[i] != v:
+                return False
+
+        return True
