@@ -2,10 +2,13 @@
 import socket
 from functools import reduce
 from operator import add
+import logging
 
 
 def hex2dec(hex):
     return int(hex, 16)
+
+logger = logging.getLogger('Superlegends')
 
 
 class Superlegends(object):
@@ -24,17 +27,20 @@ class Superlegends(object):
         socket.setdefaulttimeout(0.5)
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((self.ip, self.port))
-        print('Connected')
+        logger.debug('Connected')
 
     def disconnect(self):
+        logger.debug('Disconnecting')
         self.socket.close()
 
     def set_color(self, red, green, blue):
+        logger.info('Settings the lights to the colour (R: {}, G: {}, B: {})'.format(red, green, blue))
         prefix = [0x31]
         padding = [0x00, 0xf0, 0x0f]
         self._send(prefix + [red, green, blue] + padding)
 
     def warm(self, brightness):
+        logger.info('Settings the lights to a nice warm light')
         prefix = [0x31, 0x00, 0x00, 0x00]
         padding = [0x0f, 0x0f]
         msg = prefix + [brightness] + padding
@@ -42,12 +48,15 @@ class Superlegends(object):
         self._send(msg)
 
     def on(self):
+        logger.info('Turning on the lights')
         self._send(self.onmsg)
 
     def off(self):
+        logger.info('Turning off the lights')
         self._send(self.offmsg)
 
     def status(self):
+        logger.info('Showing status')
         self._send([0x81, 0x8a, 0x8b])
         raw_status = self._receive()
         status = self._parse_status(raw_status)
@@ -58,6 +67,7 @@ class Superlegends(object):
         return status
 
     def _send(self, msg):
+        logger.info('Sending message')
         checksum = self._checksum(msg)
         self.socket.send(bytes(msg + [checksum]))
 
