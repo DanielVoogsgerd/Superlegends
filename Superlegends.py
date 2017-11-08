@@ -79,6 +79,7 @@ class Superlegends(object):
         return status
 
     def _send(self, msg):
+        self.reconnect()
         logger.info('Sending message')
         checksum = self._checksum(msg)
         MAX_ATTEMPTS = 3
