@@ -12,7 +12,7 @@ logger = logging.getLogger('Superlegends')
 
 
 class Superlegends(object):
-    def __init__(self, ip, port=None):
+    def __init__(self, ip, port=None, autoconnect=False):
         self.defaultPort = 5577
 
         self.onmsg = [0x71, 0x23, 0x0f]
@@ -21,7 +21,8 @@ class Superlegends(object):
         self.socket = None
         self.ip = ip
         self.port = port if port is not None else 5577
-        self.connect()
+        if autoconnect:
+            self.connect()
 
     def connect(self):
         socket.setdefaulttimeout(0.5)
