@@ -51,7 +51,7 @@ class Superlegends(object):
         padding = [0x00, 0xf0, 0x0f]
         self._send(prefix + [red, green, blue] + padding)
 
-    def warm(self, brightness):
+    def warm(self, brightness = 255):
         logger.info('Settings the lights to a nice warm light')
         prefix = [0x31, 0x00, 0x00, 0x00]
         padding = [0x0f, 0x0f]
