@@ -45,7 +45,7 @@ class Superlegends(object):
         except socket.error:
             self.reconnect()
 
-    def set_color(self, red, green, blue):
+    def color(self, red, green, blue):
         logger.info('Settings the lights to the colour (R: {}, G: {}, B: {})'.format(red, green, blue))
         prefix = [0x31]
         padding = [0x00, 0xf0, 0x0f]
@@ -65,7 +65,7 @@ class Superlegends(object):
         if max(status[4]) > 0:
             colours = status[4]
             colour_scaled = [round(colour / max(colours) * brightness) for colour in colours]
-            self.set_color(colour_scaled[0], colour_scaled[1], colour_scaled[2])
+            self.color(colour_scaled[0], colour_scaled[1], colour_scaled[2])
         else:
             self.warm(brightness)
 
