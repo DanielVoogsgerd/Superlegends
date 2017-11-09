@@ -59,6 +59,16 @@ class Superlegends(object):
 
         self._send(msg)
 
+    def dim(self, brightness):
+        status = self.status()
+
+        if max(status[4]) > 0:
+            colours = status[4]
+            colour_scaled = [round(colour / max(colours) * brightness) for colour in colours]
+            self.set_color(colour_scaled[0], colour_scaled[1], colour_scaled[2])
+        else:
+            self.warm(brightness)
+
     def on(self):
         logger.info('Turning on the lights')
         self._send(self.onmsg)
