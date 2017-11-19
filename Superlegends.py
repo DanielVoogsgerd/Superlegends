@@ -12,7 +12,7 @@ def hex2dec(hex):
 logger = logging.getLogger('Superlegends')
 
 
-class Superlegends(object):
+class Bulb(object):
     def __init__(self, ip, port=None, autoconnect=False):
         self.defaultPort = 5577
 
